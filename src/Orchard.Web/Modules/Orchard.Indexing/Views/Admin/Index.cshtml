@@ -3,8 +3,8 @@
 
 @{ Layout.Title = T("Indexes").Text; }
 
-<div class="panel panel-default">
-    @if (Model.IndexEntries.Any()) {
+@if (Model.IndexEntries.Any()) {
+    <div class="panel panel-default">
         <div class="panel-body">
             @using (Html.BeginFormAntiForgeryPost()) {
                 <div class="row">
@@ -33,7 +33,7 @@
                 </div>
             }
         </div>
-        using (Html.BeginFormAntiForgeryPost()) {
+        @using (Html.BeginFormAntiForgeryPost()) {
             <div class="table-responsive table-with-footer">
                 <table class="table table-striped" role="grid">
                     <thead>
@@ -53,7 +53,7 @@
                     </thead>
                     <tbody>
                         @foreach (var index in Model.IndexEntries) {
-                            var id = System.Text.RegularExpressions.Regex.Replace(index.IndexName, "[^A-Za-z0-9-]+", "_");
+                        var id = System.Text.RegularExpressions.Regex.Replace(index.IndexName, "[^A-Za-z0-9-]+", "_");
                             <tr>
                                 @* EXAMPLE: <td>
                                         <div class="am-checkbox">
@@ -118,14 +118,16 @@
                     @Display(Model.Pager)
                 </div>*@
         }
-    }
-    else {
+    </div>
+    @Display.Modal()
+}
+else {
+    <div class="panel panel-default">
         <div class="panel-body">
             <p class="h3 no-content">
                 @T("There are currently no indices.")
                 <a href="@Url.Action("Create", "Admin" , new { area="Orchard.Indexing" })">@T("Add one now")</a>
             </p>
         </div>
-    }
-</div>
-@Display.Modal()
+    </div>
+}
